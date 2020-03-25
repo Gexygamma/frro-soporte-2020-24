@@ -5,4 +5,13 @@
 
 
 def operacion(a, b, multiplicar):
-    pass
+    if multiplicar:
+        return a * b
+    elif b != 0:
+        return a / b
+    else:
+        print('Operación no válida.')
+        # raise ZeroDivisionError
+
+assert operacion(2, 3, True) == 6
+assert operacion(8, 2, False) == 4

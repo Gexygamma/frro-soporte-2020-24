@@ -3,4 +3,9 @@
 
 
 def es_primo(numero):
-    pass
+    return not any(numero % n == 0 for n in range(2,numero)) if numero > 1 else False
+
+assert es_primo(7)
+assert es_primo(13)
+assert not es_primo(1)
+assert not es_primo(15)

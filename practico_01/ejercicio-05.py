@@ -3,5 +3,10 @@
 
 
 # Resolver utilizando listas y el operador in.
+vocales = "aeiou"
+
 def es_vocal(letra):
-    pass
+    return letra in vocales
+
+assert es_vocal('e')
+assert not es_vocal('b')
