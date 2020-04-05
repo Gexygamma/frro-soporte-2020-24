@@ -5,7 +5,9 @@ from math import ceil, floor
 # Ejemplos: arenera, radar, ojo, oso, salas.
 # Resolver sin utilizar loops (for/while), sino con slicing.
 def es_palindromo(palabra):
-    return palabra[:floor(len(palabra)/2)] == palabra[:ceil(len(palabra)/2)-1:-1]
+    fin_izquierda = floor(len(palabra)/2) # limite hasta donde se deberia cortar la palabra, leido desde la izquierda
+    fin_derecha = ceil(len(palabra)/2)-1 # limite hasta donde se deberia cortar la palabra, leido desde la derecha
+    return palabra[:fin_izquierda] == palabra[:fin_derecha:-1]
 
 assert es_palindromo("arenera")
 assert es_palindromo("ojo")
