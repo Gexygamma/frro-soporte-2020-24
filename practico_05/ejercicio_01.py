@@ -4,15 +4,20 @@
 # - nombre: string (longitud 250)
 # - apellido: string (longitud 250)
 
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-
 class Socio(Base):
+    def __init__(self, dni, nombre, apellido):
+        self.dni = dni
+        self.nombre = nombre
+        self.apellido = apellido
+
     __tablename__ = 'socios'
 
-    # id = Column(...)
-    # dni = Column(...)
-    # nombre = Column(...)
-    # apellido = Column(...)
+    id = Column(Integer, primary_key=True, autoincrement=True,unique=True)
+    dni = Column(Integer,unique=True)
+    nombre = Column(String(250))
+    apellido = Column(String(250))
