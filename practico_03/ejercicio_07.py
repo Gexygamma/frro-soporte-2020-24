@@ -9,13 +9,29 @@
 
 import datetime
 
-from practico_03.ejercicio_02 import agregar_persona
-from practico_03.ejercicio_06 import reset_tabla
-
+from ejercicio_01 import crear_conexion
+from ejercicio_02 import agregar_persona
+from ejercicio_04 import buscar_persona
+from ejercicio_06 import reset_tabla
 
 def agregar_peso(id_persona, fecha, peso):
-    pass
-
+    conn, curs = crear_conexion()
+    # Validar que existe la persona.
+    if not buscar_persona(id_persona):
+        return False
+    # Validar que no existe registro posterior.
+    values = (id_persona, )
+    result = curs.execute("SELECT Fecha FROM PersonaPeso WHERE IdPersona = ?", values)
+    for fecha_result, in result.fetchall():
+        if datetime.datetime.strptime(fecha_result[:10], "%Y-%m-%d") >= fecha:
+            return False
+    # Insertar nuevo registro.
+    values = (id_persona, fecha, peso)
+    curs.execute("INSERT INTO PersonaPeso (IdPersona, Fecha, Peso) values (?,?,?)", values)
+    conn.commit()
+    last_id = curs.lastrowid
+    conn.close()
+    return last_id
 
 @reset_tabla
 def pruebas():

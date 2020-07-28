@@ -4,13 +4,21 @@
 
 import datetime
 
-from practico_03.ejercicio_01 import reset_tabla
-from practico_03.ejercicio_02 import agregar_persona
-
+from ejercicio_01 import crear_conexion, reset_tabla
+from ejercicio_02 import agregar_persona
 
 def buscar_persona(id_persona):
-    return False
-
+    conn, curs = crear_conexion()
+    values = (id_persona, )
+    result = curs.execute("""SELECT IdPersona, Nombre, FechaNacimiento, DNI, Altura
+        FROM Personas WHERE IdPersona = ?""", values)
+    row = result.fetchone()
+    conn.close()
+    if row is None:
+        return False
+    _id, nombre, nacimiento_str, dni, altura = row
+    nacimiento = datetime.datetime.strptime(nacimiento_str[:10], '%Y-%m-%d')
+    return _id, nombre, nacimiento, dni, altura
 
 @reset_tabla
 def pruebas():

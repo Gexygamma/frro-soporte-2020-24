@@ -3,14 +3,18 @@
 
 import datetime
 
-from practico_03.ejercicio_01 import reset_tabla
-from practico_03.ejercicio_02 import agregar_persona
-from practico_03.ejercicio_04 import buscar_persona
-
+from ejercicio_01 import crear_conexion, reset_tabla
+from ejercicio_02 import agregar_persona
+from ejercicio_04 import buscar_persona
 
 def actualizar_persona(id_persona, nombre, nacimiento, dni, altura):
-    return False
-
+    conn, curs = crear_conexion()
+    values = (nombre, nacimiento, dni, altura, id_persona)
+    curs.execute("""UPDATE Personas SET Nombre = ?, FechaNacimiento = ?,
+        Dni = ?, Altura = ? WHERE IdPersona = ?""", values)
+    conn.commit()
+    conn.close()
+    return curs.rowcount > 0
 
 @reset_tabla
 def pruebas():

@@ -3,12 +3,16 @@
 
 import datetime
 
-from practico_03.ejercicio_01 import reset_tabla
-
+from ejercicio_01 import crear_conexion, reset_tabla
 
 def agregar_persona(nombre, nacimiento, dni, altura):
-    return 0
-
+    conn, curs = crear_conexion()
+    values = (nombre, nacimiento, dni, altura)
+    curs.execute("INSERT INTO Personas (Nombre, FechaNacimiento, Dni, Altura) values (?,?,?,?)", values)
+    conn.commit()
+    last_id = curs.lastrowid
+    conn.close()
+    return last_id
 
 @reset_tabla
 def pruebas():

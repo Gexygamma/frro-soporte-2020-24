@@ -16,14 +16,22 @@
 
 import datetime
 
-from practico_03.ejercicio_02 import agregar_persona
-from practico_03.ejercicio_06 import reset_tabla
-from practico_03.ejercicio_07 import agregar_peso
-
+from ejercicio_01 import crear_conexion
+from ejercicio_02 import agregar_persona
+from ejercicio_04 import buscar_persona
+from ejercicio_06 import reset_tabla
+from ejercicio_07 import agregar_peso
 
 def listar_pesos(id_persona):
-    return []
-
+    conn, curs = crear_conexion()
+    # Validar que existe la persona.
+    if not buscar_persona(id_persona):
+        return False
+    # Devolver lista.
+    values = (id_persona, )
+    result = curs.execute("SELECT Fecha, Peso FROM PersonaPeso WHERE IdPersona = ?", values).fetchall()
+    conn.close()
+    return [(fecha_str[:10], peso) for fecha_str, peso in result]
 
 @reset_tabla
 def pruebas():
@@ -38,7 +46,6 @@ def pruebas():
     assert pesos_juan == pesos_esperados
     # id incorrecto
     assert listar_pesos(200) == False
-
 
 if __name__ == '__main__':
     pruebas()
